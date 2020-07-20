@@ -346,7 +346,7 @@ public class FloatLogoMenu {
     private void initProgressBar(){
         ProgressBar progressBar = new ProgressBar(mActivity);
         mProgressBar = progressBar;
-        rootView.addView(mProgressBar);
+        wManager.addView(mProgressBar,wmParams);
         mProgressBar.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
     }
