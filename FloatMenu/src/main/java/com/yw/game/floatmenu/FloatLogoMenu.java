@@ -283,7 +283,7 @@ public class FloatLogoMenu {
         initFloatWindow();
         initTimer();
         initFloat();
-        initProgressBar();
+//        initProgressBar();
 
     }
 
@@ -355,6 +355,11 @@ public class FloatLogoMenu {
     }
     public void setProgressBarValue(int progress){
         mProgressBar.setProgress(progress);
+    }
+    public synchronized void setProgress(int progress) {
+        if(null != mFloatLogo){
+            mFloatLogo.setProgress(progress);
+        }
     }
 
     /**

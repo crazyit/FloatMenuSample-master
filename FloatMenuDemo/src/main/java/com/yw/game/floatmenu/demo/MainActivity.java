@@ -100,7 +100,7 @@ public class MainActivity extends Activity {
                     refreshDot();
                 }
             }, 5000);
-
+            mFloatMenu.setProgress(60);
             //同时只能new一个
         }
 
