@@ -129,6 +129,7 @@ public class DotImageView extends View {
     public static final int STROKE = 0;
     public static final int FILL = 1;
 
+    private boolean rotateEnabled = false;
 
     public void setBgColor(int bgColor) {
         mBgColor = bgColor;
@@ -259,18 +260,24 @@ public class DotImageView extends View {
                     mCamera.restore();
                 } else {
                     //手指拖动且手指未离开屏幕则使用 绕图心2d旋转动画
-                    canvas.rotate(60 * mRotateValue, getWidth() / 2, getHeight() / 2);
+                    if(this.rotateEnabled) {
+                        canvas.rotate(60 * mRotateValue, getWidth() / 2, getHeight() / 2);
+                    }
                 }
             }
 
 
         } else if (mStatus == HIDE_LEFT) {
             canvas.translate(-getWidth() * hideOffset, 0);
-            canvas.rotate(-45, getWidth() / 2, getHeight() / 2);
+            if(this.rotateEnabled){
+                canvas.rotate(-45, getWidth() / 2, getHeight() / 2);
+            }
 
         } else if (mStatus == HIDE_RIGHT) {
             canvas.translate(getWidth() * hideOffset, 0);
-            canvas.rotate(45, getWidth() / 2, getHeight() / 2);
+            if(this.rotateEnabled) {
+                canvas.rotate(45, getWidth() / 2, getHeight() / 2);
+            }
         }
         canvas.save();
         if (!isDrag) {
@@ -396,8 +403,9 @@ public class DotImageView extends View {
         }
 
     }
-
-
+    public synchronized void setRotateEnabled(boolean rotateEnabled) {
+        this.rotateEnabled = rotateEnabled;
+    }
     public void setDotNum(int num, Animator.AnimatorListener l) {
         if (!inited) {
             startAnim(num, l);

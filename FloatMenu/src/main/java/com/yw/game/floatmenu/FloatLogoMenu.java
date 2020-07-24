@@ -277,7 +277,7 @@ public class FloatLogoMenu {
         }
 
         if (mFloatItems.isEmpty()) {
-            throw new IllegalArgumentException("At least one menu item!");
+//            throw new IllegalArgumentException("At least one menu item!");
         }
 
         initFloatWindow();
@@ -359,6 +359,11 @@ public class FloatLogoMenu {
     public synchronized void setProgress(int progress) {
         if(null != mFloatLogo){
             mFloatLogo.setProgress(progress);
+        }
+    }
+    public synchronized void setRotateEnabled(boolean rotateEnabled) {
+        if(null != mFloatLogo){
+            mFloatLogo.setRotateEnabled(rotateEnabled);
         }
     }
 
@@ -716,6 +721,9 @@ public class FloatLogoMenu {
      */
     private void openMenu() {
         if (isDrag) return;
+        if(this.mFloatItems.size()<1){
+            return;
+        }
 
         if (!isExpanded) {
             mFloatLogo.setDrawDarkBg(false);
