@@ -366,6 +366,16 @@ public class FloatLogoMenu {
             mFloatLogo.setRotateEnabled(rotateEnabled);
         }
     }
+    public synchronized void setDrawBgCircleEnabled(boolean drawBgCircleEnabled) {
+        if(null != mFloatLogo) {
+            mFloatLogo.setDrawBgCircleEnabled(drawBgCircleEnabled);
+        }
+    }
+    public synchronized void setDragScaleEnabled(boolean dragScaleEnabled) {
+        if(null != mFloatLogo) {
+            mFloatLogo.setDragScaleEnabled(dragScaleEnabled);
+        }
+    }
 
     /**
      * 初始化悬浮球
