@@ -130,6 +130,8 @@ public class DotImageView extends View {
     public static final int FILL = 1;
 
     private boolean rotateEnabled = false;
+    private boolean dragScaleEnabled = false;
+    private boolean drawBgCircleEnabled = false;
 
     public void setBgColor(int bgColor) {
         mBgColor = bgColor;
@@ -247,7 +249,9 @@ public class DotImageView extends View {
 
             if (isDrag) {
                 //如果当前是拖动状态则放大并旋转
-                canvas.scale((scaleOffset + 1f), (scaleOffset + 1f), getWidth() / 2, getHeight() / 2);
+                if(dragScaleEnabled) {
+                    canvas.scale((scaleOffset + 1f), (scaleOffset + 1f), getWidth() / 2, getHeight() / 2);
+                }
                 if (mIsResetPosition) {
                     //手指拖动后离开屏幕复位时使用 x轴旋转 3d动画
                     mCamera.save();
@@ -283,7 +287,9 @@ public class DotImageView extends View {
         if (!isDrag) {
             if (mDrawDarkBg) {
                 mPaintBg.setColor(mBgColor);
-                canvas.drawCircle(centerX, centerY, mLogoBackgroundRadius, mPaintBg);
+                if(drawBgCircleEnabled) {
+                    canvas.drawCircle(centerX, centerY, mLogoBackgroundRadius, mPaintBg);
+                }
                 // 60% 白色 （透明度 40%）
                 mPaint.setColor(0x99ffffff);
             } else {
@@ -293,7 +299,9 @@ public class DotImageView extends View {
             if (mAlphaValue != 0) {
                 mPaint.setAlpha((int) (mAlphaValue * 255));
             }
-            canvas.drawCircle(centerX, centerY, mLogoWhiteRadius, mPaint);
+            if(drawBgCircleEnabled) {
+                canvas.drawCircle(centerX, centerY, mLogoWhiteRadius, mPaint);
+            }
         }
 
         canvas.restore();
@@ -308,26 +316,34 @@ public class DotImageView extends View {
             int readPointRadus = (mDrawNum ? mRedPointRadiusWithNum : mRedPointRadius);
             mPaint.setColor(Color.RED);
             if (mStatus == HIDE_LEFT) {
-                canvas.drawCircle(centerX + mRedPointOffset, centerY - mRedPointOffset, readPointRadus, mPaint);
+                if(drawBgCircleEnabled) {
+                    canvas.drawCircle(centerX + mRedPointOffset, centerY - mRedPointOffset, readPointRadus, mPaint);
+                }
                 if (mDrawNum) {
                     mPaint.setColor(Color.WHITE);
                     canvas.drawText(dotNum, centerX + mRedPointOffset - getTextWidth(dotNum, mPaint) / 2, centerY - mRedPointOffset + getTextHeight(dotNum, mPaint) / 2, mPaint);
                 }
             } else if (mStatus == HIDE_RIGHT) {
-                canvas.drawCircle(centerX - mRedPointOffset, centerY - mRedPointOffset, readPointRadus, mPaint);
+                if(drawBgCircleEnabled) {
+                    canvas.drawCircle(centerX - mRedPointOffset, centerY - mRedPointOffset, readPointRadus, mPaint);
+                }
                 if (mDrawNum) {
                     mPaint.setColor(Color.WHITE);
                     canvas.drawText(dotNum, centerX - mRedPointOffset - getTextWidth(dotNum, mPaint) / 2, centerY - mRedPointOffset + getTextHeight(dotNum, mPaint) / 2, mPaint);
                 }
             } else {
                 if (mLastStatus == HIDE_LEFT) {
-                    canvas.drawCircle(centerX + mRedPointOffset, centerY - mRedPointOffset, readPointRadus, mPaint);
+                    if(drawBgCircleEnabled) {
+                        canvas.drawCircle(centerX + mRedPointOffset, centerY - mRedPointOffset, readPointRadus, mPaint);
+                    }
                     if (mDrawNum) {
                         mPaint.setColor(Color.WHITE);
                         canvas.drawText(dotNum, centerX + mRedPointOffset - getTextWidth(dotNum, mPaint) / 2, centerY - mRedPointOffset + getTextHeight(dotNum, mPaint) / 2, mPaint);
                     }
                 } else if (mLastStatus == HIDE_RIGHT) {
-                    canvas.drawCircle(centerX - mRedPointOffset, centerY - mRedPointOffset, readPointRadus, mPaint);
+                    if(drawBgCircleEnabled) {
+                        canvas.drawCircle(centerX - mRedPointOffset, centerY - mRedPointOffset, readPointRadus, mPaint);
+                    }
                     if (mDrawNum) {
                         mPaint.setColor(Color.WHITE);
                         canvas.drawText(dotNum, centerX - mRedPointOffset - getTextWidth(dotNum, mPaint) / 2, centerY - mRedPointOffset + getTextHeight(dotNum, mPaint) / 2, mPaint);
@@ -405,6 +421,12 @@ public class DotImageView extends View {
     }
     public synchronized void setRotateEnabled(boolean rotateEnabled) {
         this.rotateEnabled = rotateEnabled;
+    }
+    public synchronized void setDragScaleEnabled(boolean dragScaleEnabled) {
+        this.dragScaleEnabled = dragScaleEnabled;
+    }
+    public synchronized void setDrawBgCircleEnabled(boolean drawBgCircleEnabled) {
+        this.drawBgCircleEnabled = drawBgCircleEnabled;
     }
     public void setDotNum(int num, Animator.AnimatorListener l) {
         if (!inited) {
