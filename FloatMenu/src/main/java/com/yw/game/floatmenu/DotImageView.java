@@ -55,8 +55,8 @@ public class DotImageView extends View {
 
 
     private Bitmap mBitmap;//logo
-    private final int mLogoBackgroundRadius = dip2px(25);//logo的灰色背景圆的半径
-    private final int mLogoWhiteRadius = dip2px(20);//logo的白色背景的圆的半径
+    private final int mLogoBackgroundRadius = dip2px(30);//logo的灰色背景圆的半径
+    private final int mLogoWhiteRadius = dip2px(25);//logo的白色背景的圆的半径
     private final int mRedPointRadiusWithNum = dip2px(6);//红点圆半径
     private final int mRedPointRadius = dip2px(3);//红点圆半径
     private final int mRedPointOffset = dip2px(10);//红点对logo的偏移量，比如左红点就是logo中心的 x - mRedPointOffset
