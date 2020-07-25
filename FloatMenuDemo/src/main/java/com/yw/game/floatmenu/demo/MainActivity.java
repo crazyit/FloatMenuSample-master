@@ -62,7 +62,7 @@ public class MainActivity extends Activity {
 
         mActivity = this;
         for (int i = 0; i < menuIcons.length; i++) {
-            itemList.add(new FloatItem(MENU_ITEMS[i], 0x99000000, 0x99000000, BitmapFactory.decodeResource(this.getResources(), menuIcons[i]), String.valueOf(i + 1)));
+//            itemList.add(new FloatItem(MENU_ITEMS[i], 0x99000000, 0x99000000, BitmapFactory.decodeResource(this.getResources(), menuIcons[i]), String.valueOf(i + 1)));
         }
     }
 
@@ -74,14 +74,15 @@ public class MainActivity extends Activity {
             mFloatMenu = new FloatLogoMenu.Builder()
                     .withActivity(mActivity)
 //                    .withContext(mActivity.getApplication())//这个在7.0（包括7.0）以上以及大部分7.0以下的国产手机上需要用户授权，需要搭配<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-                    .logo(BitmapFactory.decodeResource(getResources(), R.drawable.yw_game_logo))
+                    .logo(BitmapFactory.decodeResource(getResources(), R.drawable.icon_float))
                     .drawCicleMenuBg(true)
                     .backMenuColor(0xffe4e3e1)
                     .setBgDrawable(this.getResources().getDrawable(R.drawable.yw_game_float_menu_bg))
                     //这个背景色需要和logo的背景色一致
                     .setFloatItems(itemList)
-                    .defaultLocation(FloatLogoMenu.RIGHT)
+                    .defaultLocation(FloatLogoMenu.LEFT)
                     .drawRedPointNum(false)
+                    .setMarkTag("mFloatMenu")
                     .showWithLogoListener(new FloatMenuView.OnMenuLogoClickListener() {
                         @Override
                         public void onItemClick() {
@@ -106,6 +107,46 @@ public class MainActivity extends Activity {
                 }
             }, 5000);
             mFloatMenu.setProgress(60);
+            //同时只能new一个
+        }
+
+        if (mFloatMenu1 == null) {
+            mFloatMenu1 = new FloatLogoMenu.Builder()
+                    .withActivity(mActivity)
+//                    .withContext(mActivity.getApplication())//这个在7.0（包括7.0）以上以及大部分7.0以下的国产手机上需要用户授权，需要搭配<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+                    .logo(BitmapFactory.decodeResource(getResources(), R.drawable.icon_redbag))
+                    .drawCicleMenuBg(true)
+                    .backMenuColor(0xffe4e3e1)
+                    .setBgDrawable(this.getResources().getDrawable(R.drawable.yw_game_float_menu_bg))
+                    //这个背景色需要和logo的背景色一致
+                    .setFloatItems(itemList)
+                    .defaultLocation(FloatLogoMenu.RIGHT)
+                    .drawRedPointNum(false)
+                    .setMarkTag("mFloatMenu1")
+                    .showWithLogoListener(new FloatMenuView.OnMenuLogoClickListener() {
+                        @Override
+                        public void onItemClick() {
+
+                        }
+                    }).showWithListener(new FloatMenuView.OnMenuClickListener() {
+                        @Override
+                        public void onItemClick(int position, String title) {
+                            Toast.makeText(MainActivity.this, "position " + position + " title:" + title + " is clicked.", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void dismiss() {
+
+                        }
+                    });
+
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    refreshDot();
+                }
+            }, 5000);
+//            mFloatMenu.setProgress(60);
             //同时只能new一个
         }
 

@@ -147,6 +147,8 @@ public class FloatLogoMenu {
      */
     private int mResetLocationValue;
 
+    private String mMarkTag = "";
+
     /**
      * 手指离开屏幕后 用于恢复 悬浮球的 logo 的左右位置
      */
@@ -273,6 +275,7 @@ public class FloatLogoMenu {
         mDefaultLocation = builder.mDefaultLocation;
         mFloatItems = builder.mFloatItems;
         mBackground = builder.mDrawable;
+        mMarkTag = builder.mMarkTag;
 
 //        if (mActivity == null || mActivity.isFinishing() || mActivity.getWindowManager() == null) {
 //            throw new IllegalArgumentException("Activity = null, or Activity is isFinishing ,or this Activity`s  token is bad");
@@ -913,7 +916,7 @@ public class FloatLogoMenu {
      */
     private int getSetting(String key, int defaultValue) {
         try {
-            SharedPreferences sharedata = mActivity.getSharedPreferences("floatLogo", 0);
+            SharedPreferences sharedata = mActivity.getSharedPreferences("floatLogo"+mMarkTag, 0);
             return sharedata.getInt(key, defaultValue);
         } catch (Exception e) {
             e.printStackTrace();
@@ -929,7 +932,7 @@ public class FloatLogoMenu {
      */
     public void saveSetting(String key, int value) {
         try {
-            SharedPreferences.Editor sharedata = mActivity.getSharedPreferences("floatLogo", 0).edit();
+            SharedPreferences.Editor sharedata = mActivity.getSharedPreferences("floatLogo"+mMarkTag, 0).edit();
             sharedata.putInt(key, value);
             sharedata.apply();
         } catch (Exception e) {
@@ -966,6 +969,7 @@ public class FloatLogoMenu {
         private FloatMenuView.OnMenuClickListener mOnMenuClickListener;
         private FloatMenuView.OnMenuLogoClickListener mOnLogoClickListener;
         private Drawable mDrawable;
+        private String mMarkTag = "";
 
 
         public Builder setBgDrawable(Drawable drawable) {
@@ -1032,6 +1036,10 @@ public class FloatLogoMenu {
         }
         public Builder showWithLogoListener(FloatMenuView.OnMenuLogoClickListener val) {
             mOnLogoClickListener = val;
+            return this;
+        }
+        public Builder setMarkTag(String tag) {
+            mMarkTag = tag;
             return this;
         }
 
