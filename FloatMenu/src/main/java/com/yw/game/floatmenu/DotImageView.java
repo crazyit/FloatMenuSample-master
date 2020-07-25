@@ -28,6 +28,7 @@ import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
@@ -354,7 +355,12 @@ public class DotImageView extends View {
         }
         mLastStatus = mStatus;
         if (isDrag) {
-            canvas.restore();
+            try {
+                canvas.save();
+                canvas.restore();
+            }catch (Exception e){
+                Log.e("error",""+e);
+            }
         }
         //画进度
         int ringWidth = getWidth() / 6;
