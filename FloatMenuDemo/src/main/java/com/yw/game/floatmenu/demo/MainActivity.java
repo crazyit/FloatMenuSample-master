@@ -82,7 +82,12 @@ public class MainActivity extends Activity {
                     .setFloatItems(itemList)
                     .defaultLocation(FloatLogoMenu.RIGHT)
                     .drawRedPointNum(false)
-                    .showWithListener(new FloatMenuView.OnMenuClickListener() {
+                    .showWithLogoListener(new FloatMenuView.OnMenuLogoClickListener() {
+                        @Override
+                        public void onItemClick() {
+
+                        }
+                    }).showWithListener(new FloatMenuView.OnMenuClickListener() {
                         @Override
                         public void onItemClick(int position, String title) {
                             Toast.makeText(MainActivity.this, "position " + position + " title:" + title + " is clicked.", Toast.LENGTH_SHORT).show();

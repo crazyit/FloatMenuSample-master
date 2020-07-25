@@ -286,6 +286,9 @@ public class FloatMenuView extends View {
         void dismiss();
 
     }
+    public interface OnMenuLogoClickListener {
+        void onItemClick();
+    }
 
     private abstract class MyAnimListener implements Animator.AnimatorListener {
         @Override

@@ -78,6 +78,7 @@ public class DotImageView extends View {
 
     private int mBgColor = 0x99000000;
     private boolean drawTextProgress = false;
+    private int progressWidthOffset = 25;
 
     /**
      * 画笔对象的引用
@@ -369,7 +370,7 @@ public class DotImageView extends View {
         paint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(centre, centre, centre - ringWidth, paint); //画出圆环
         //3.画进度圆环
-        paint.setStrokeWidth(ringWidth-13); //设置圆环的宽度
+        paint.setStrokeWidth(ringWidth- progressWidthOffset); //设置圆环的宽度
         paint.setColor(progressColor); //设置进度的颜色
         RectF oval = new RectF(centre - radius, centre - radius, centre + radius, centre + radius); //用于定义的圆弧的形状和大小的界限
         switch (style) {
@@ -427,6 +428,9 @@ public class DotImageView extends View {
     }
     public synchronized void setDrawBgCircleEnabled(boolean drawBgCircleEnabled) {
         this.drawBgCircleEnabled = drawBgCircleEnabled;
+    }
+    public synchronized void setProgressWidthOffset(int progressWidthOffset) {
+        this.progressWidthOffset = progressWidthOffset;
     }
     public void setDotNum(int num, Animator.AnimatorListener l) {
         if (!inited) {

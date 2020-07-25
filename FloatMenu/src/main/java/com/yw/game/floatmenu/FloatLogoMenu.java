@@ -178,6 +178,10 @@ public class FloatLogoMenu {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     floatEventDown(event);
+                    if(null != mOnLogoClickListener)
+                    {
+                        mOnLogoClickListener.onItemClick();
+                    }
                     break;
                 case MotionEvent.ACTION_MOVE:
                     floatEventMove(event);
@@ -225,6 +229,7 @@ public class FloatLogoMenu {
      * 菜单 点击、关闭 监听
      */
     private FloatMenuView.OnMenuClickListener mOnMenuClickListener;
+    private FloatMenuView.OnMenuLogoClickListener mOnLogoClickListener;
 
 
     /**
@@ -264,6 +269,7 @@ public class FloatLogoMenu {
         mLogoRes = builder.mLogoRes;
         mActivity = builder.mActivity;
         mOnMenuClickListener = builder.mOnMenuClickListener;
+        mOnLogoClickListener = builder.mOnLogoClickListener;
         mDefaultLocation = builder.mDefaultLocation;
         mFloatItems = builder.mFloatItems;
         mBackground = builder.mDrawable;
@@ -374,6 +380,11 @@ public class FloatLogoMenu {
     public synchronized void setDragScaleEnabled(boolean dragScaleEnabled) {
         if(null != mFloatLogo) {
             mFloatLogo.setDragScaleEnabled(dragScaleEnabled);
+        }
+    }
+    public synchronized void setProgressWidthOffset(int progressWidthOffset) {
+        if(null != mFloatLogo) {
+            mFloatLogo.setProgressWidthOffset(progressWidthOffset);
         }
     }
 
@@ -934,6 +945,7 @@ public class FloatLogoMenu {
     }
 
 
+
     public interface OnMenuClickListener {
         void onMenuExpended(boolean isExpened);
     }
@@ -952,6 +964,7 @@ public class FloatLogoMenu {
         private List<FloatItem> mFloatItems = new ArrayList<>();
         private Context mActivity;
         private FloatMenuView.OnMenuClickListener mOnMenuClickListener;
+        private FloatMenuView.OnMenuLogoClickListener mOnLogoClickListener;
         private Drawable mDrawable;
 
 
@@ -1016,6 +1029,10 @@ public class FloatLogoMenu {
         public FloatLogoMenu showWithListener(FloatMenuView.OnMenuClickListener val) {
             mOnMenuClickListener = val;
             return new FloatLogoMenu(this);
+        }
+        public Builder showWithLogoListener(FloatMenuView.OnMenuLogoClickListener val) {
+            mOnLogoClickListener = val;
+            return this;
         }
 
         public FloatLogoMenu showWithLogo(Bitmap val) {
