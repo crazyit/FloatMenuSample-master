@@ -20,6 +20,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.CountDownTimer;
@@ -823,6 +824,9 @@ public class FloatLogoMenu {
         destroyFloat();
     }
 
+    public WindowManager.LayoutParams getLayoutParams() {
+        return wmParams;
+    }
 
     /**
      * 移除所有悬浮窗 释放资源
