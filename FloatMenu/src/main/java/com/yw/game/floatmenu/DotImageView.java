@@ -428,6 +428,25 @@ public class DotImageView extends View {
         }
 
     }
+    /**
+     * 设置进度，此为线程安全控件，由于考虑多线的问题，需要同步
+     * 刷新界面调用postInvalidate()能在非UI线程刷新
+     *
+     * @param progress
+     */
+    public synchronized void setProgressWithoutAnimation(float progress) {
+        if (progress < 0) {
+            throw new IllegalArgumentException("progress not less than 0");
+        }
+        if (progress > max) {
+            progress = max;
+        }
+        if (progress <= max) {
+            this.progress = progress;
+            postInvalidate();
+        }
+
+    }
     private void setProgressAnimation(float startAngle, float currentAngle,float currentValue, float time){
         //绘制当前数据对应的圆弧的动画效果
         ValueAnimator progressAnimator = ValueAnimator.ofFloat(startAngle, currentValue);

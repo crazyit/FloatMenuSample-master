@@ -372,6 +372,18 @@ public class FloatLogoMenu {
             mFloatLogo.setProgress(progress,time);
         }
     }
+    /**
+     * 设置进度，此为线程安全控件，由于考虑多线的问题，需要同步
+     * 刷新界面调用postInvalidate()能在非UI线程刷新
+     *
+     * @param progress
+     */
+    public synchronized void setProgressWithoutAnimation(float progress) {
+        if(null != mFloatLogo){
+            mFloatLogo.setProgressWithoutAnimation(progress);
+        }
+    }
+
     public synchronized void setRotateEnabled(boolean rotateEnabled) {
         if(null != mFloatLogo){
             mFloatLogo.setRotateEnabled(rotateEnabled);
