@@ -67,7 +67,7 @@ public class DotImageView extends View {
     private ValueAnimator mDragValueAnimator;//放大、旋转 属性动画
     private LinearInterpolator mLinearInterpolator = new LinearInterpolator();//通用用加速器
     public boolean mDrawDarkBg = true;//是否绘制黑色背景，当菜单关闭时，才绘制灰色背景
-    private static final float hideOffset = 0.4f;//往左右隐藏多少宽度的偏移值， 隐藏宽度的0.4
+    private static final float hideOffset = 0.1f;//往左右隐藏多少宽度的偏移值， 隐藏宽度的0.4
     private Camera mCamera;//camera用于执行3D动画
 
     private boolean mDrawNum = false;//只绘制红点还是红点+白色数字

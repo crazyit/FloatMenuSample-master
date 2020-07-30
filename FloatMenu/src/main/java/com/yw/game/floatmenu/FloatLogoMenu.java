@@ -20,7 +20,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.CountDownTimer;
@@ -59,6 +58,7 @@ public class FloatLogoMenu {
      */
     public static final int LEFT = 0;
     public static final int RIGHT = 1;
+
 
     /**
      * 记录系统状态栏的高度
@@ -263,6 +263,7 @@ public class FloatLogoMenu {
     private Drawable mBackground;
 
     private ProgressBar mProgressBar;
+    private int initLogoOffsetX = 0;
 
 
     private FloatLogoMenu(Builder builder) {
@@ -339,9 +340,9 @@ public class FloatLogoMenu {
         int defaultY = ((screenHeight - mStatusBarHeight) / 2) / 3;
         int y = getSetting(LOCATION_Y, defaultY);
         if (mHintLocation == LEFT) {
-            wmParams.x = 0;
+            wmParams.x = initLogoOffsetX;
         } else {
-            wmParams.x = mScreenWidth;
+            wmParams.x = mScreenWidth- initLogoOffsetX;
         }
 
         if (y != 0 && y != defaultY) {
@@ -410,7 +411,7 @@ public class FloatLogoMenu {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        initLogoOffsetX = mFloatLogo.getWidth()/2;
     }
 
     private void generateLeftLineLayout() {
@@ -661,9 +662,9 @@ public class FloatLogoMenu {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     if (Math.abs(wmParams.x) < 0) {
-                        wmParams.x = 0;
+                        wmParams.x = initLogoOffsetX;
                     } else if (Math.abs(wmParams.x) > mScreenWidth) {
-                        wmParams.x = mScreenWidth;
+                        wmParams.x = mScreenWidth- initLogoOffsetX;
                     }
                     updateViewPosition();
                     isDrag = false;
@@ -674,9 +675,9 @@ public class FloatLogoMenu {
                 @Override
                 public void onAnimationCancel(Animator animation) {
                     if (Math.abs(wmParams.x) < 0) {
-                        wmParams.x = 0;
+                        wmParams.x = initLogoOffsetX;
                     } else if (Math.abs(wmParams.x) > mScreenWidth) {
-                        wmParams.x = mScreenWidth;
+                        wmParams.x = mScreenWidth- initLogoOffsetX;
                     }
 
                     updateViewPosition();
@@ -725,9 +726,9 @@ public class FloatLogoMenu {
 
 
         if (Math.abs(wmParams.x) < 0) {
-            wmParams.x = 0;
+            wmParams.x = initLogoOffsetX;
         } else if (Math.abs(wmParams.x) > mScreenWidth) {
-            wmParams.x = mScreenWidth;
+            wmParams.x = mScreenWidth- initLogoOffsetX;
         }
         if (valueAnimator.isRunning()) {
             valueAnimator.cancel();
