@@ -30,6 +30,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
 
@@ -117,7 +118,7 @@ public class DotImageView extends View {
     /**
      * 当前进度
      */
-    private int progress;
+    private float progress;
     /**
      * 是否显示中间的进度
      */
@@ -413,7 +414,7 @@ public class DotImageView extends View {
      *
      * @param progress
      */
-    public synchronized void setProgress(int progress) {
+    public synchronized void setProgress(float progress,float time) {
         if (progress < 0) {
             throw new IllegalArgumentException("progress not less than 0");
         }
@@ -421,10 +422,29 @@ public class DotImageView extends View {
             progress = max;
         }
         if (progress <= max) {
-            this.progress = progress;
-            postInvalidate();
+//            this.progress = progress;
+            setProgressAnimation(this.progress,this.progress,progress,time);
+//            postInvalidate();
         }
 
+    }
+    private void setProgressAnimation(float startAngle, float currentAngle,float currentValue, float time){
+        //绘制当前数据对应的圆弧的动画效果
+        ValueAnimator progressAnimator = ValueAnimator.ofFloat(startAngle, currentValue);
+        progressAnimator.setDuration((long) time);
+        progressAnimator.setTarget(this.progress);
+        progressAnimator.setInterpolator(new AccelerateInterpolator());
+        progressAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                progress = (float) animation.getAnimatedValue();
+                Log.w("progress",""+progress);
+                //重新绘制，不然不会出现效果
+                postInvalidate();
+            }
+        });
+        //开始执行动画
+        progressAnimator.start();
     }
     public synchronized void setRotateEnabled(boolean rotateEnabled) {
         this.rotateEnabled = rotateEnabled;

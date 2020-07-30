@@ -104,9 +104,10 @@ public class MainActivity extends Activity {
                 @Override
                 public void run() {
                     refreshDot();
+                    mFloatMenu.setProgress(60,5000);
                 }
             }, 5000);
-            mFloatMenu.setProgress(60);
+
             //同时只能new一个
         }
 

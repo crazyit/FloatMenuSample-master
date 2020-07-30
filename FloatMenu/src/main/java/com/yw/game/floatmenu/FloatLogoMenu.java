@@ -367,9 +367,9 @@ public class FloatLogoMenu {
     public void setProgressBarValue(int progress){
         mProgressBar.setProgress(progress);
     }
-    public synchronized void setProgress(int progress) {
+    public synchronized void setProgress(int progress,float time) {
         if(null != mFloatLogo){
-            mFloatLogo.setProgress(progress);
+            mFloatLogo.setProgress(progress,time);
         }
     }
     public synchronized void setRotateEnabled(boolean rotateEnabled) {
