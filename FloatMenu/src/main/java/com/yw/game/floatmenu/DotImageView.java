@@ -452,12 +452,11 @@ public class DotImageView extends View {
         ValueAnimator progressAnimator = ValueAnimator.ofFloat(startAngle, currentValue);
         progressAnimator.setDuration((long) time);
         progressAnimator.setTarget(this.progress);
-        progressAnimator.setInterpolator(new AccelerateInterpolator());
+//        progressAnimator.setInterpolator(new AccelerateInterpolator());
         progressAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 progress = (float) animation.getAnimatedValue();
-                Log.w("progress",""+progress);
                 //重新绘制，不然不会出现效果
                 postInvalidate();
             }
