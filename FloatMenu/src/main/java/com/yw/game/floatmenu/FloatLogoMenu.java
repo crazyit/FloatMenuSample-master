@@ -64,6 +64,7 @@ public class FloatLogoMenu {
      * 记录系统状态栏的高度
      */
     private int mStatusBarHeight;
+    private int mInitPosOffsetY = 0;
     /**
      * 记录当前手指位置在屏幕上的横坐标值
      */
@@ -222,6 +223,7 @@ public class FloatLogoMenu {
      * @param floatItems
      */
     private Bitmap mLogoRes;
+    private Bitmap mLogoBgRes;
 
     /**
      * 用于显示在 mActivity 上的 mActivity
@@ -271,6 +273,7 @@ public class FloatLogoMenu {
         mDrawRedPointNum = builder.mDrawRedPointNum;
         mCircleMenuBg = builder.mCircleMenuBg;
         mLogoRes = builder.mLogoRes;
+        mLogoBgRes = builder.mLogoBgRes;
         mActivity = builder.mActivity;
         mOnMenuClickListener = builder.mOnMenuClickListener;
         mOnLogoClickListener = builder.mOnLogoClickListener;
@@ -278,6 +281,7 @@ public class FloatLogoMenu {
         mFloatItems = builder.mFloatItems;
         mBackground = builder.mDrawable;
         mMarkTag = builder.mMarkTag;
+        mInitPosOffsetY = builder.mInitPosOffsetY;
 
 //        if (mActivity == null || mActivity.isFinishing() || mActivity.getWindowManager() == null) {
 //            throw new IllegalArgumentException("Activity = null, or Activity is isFinishing ,or this Activity`s  token is bad");
@@ -337,7 +341,7 @@ public class FloatLogoMenu {
         wmParams.gravity = Gravity.LEFT | Gravity.TOP;
         wmParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
         mHintLocation = getSetting(LOCATION_X, mDefaultLocation);
-        int defaultY = ((screenHeight - mStatusBarHeight) / 2) / 3;
+        int defaultY = ((screenHeight - mStatusBarHeight) / 2) / 3 - mInitPosOffsetY;
         int y = getSetting(LOCATION_Y, defaultY);
         if (mHintLocation == LEFT) {
             wmParams.x = initLogoOffsetX;
@@ -346,9 +350,9 @@ public class FloatLogoMenu {
         }
 
         if (y != 0 && y != defaultY) {
-            wmParams.y = y;
+            wmParams.y = y - mInitPosOffsetY;
         } else {
-            wmParams.y = defaultY;
+            wmParams.y = defaultY - mInitPosOffsetY;
         }
         wmParams.alpha = 1;
         wmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -411,7 +415,7 @@ public class FloatLogoMenu {
     private void initFloat() {
         generateLeftLineLayout();
         generateRightLineLayout();
-        mFloatLogo = new DotImageView(mActivity, mLogoRes);
+        mFloatLogo = new DotImageView(mActivity, mLogoRes,mLogoBgRes);
         mFloatLogo.setLayoutParams(new WindowManager.LayoutParams(dp2Px(50, mActivity), dp2Px(50, mActivity)));
         mFloatLogo.setDrawNum(mDrawRedPointNum);
         mFloatLogo.setBgColor(mBackMenuColor);
@@ -427,7 +431,7 @@ public class FloatLogoMenu {
     }
 
     private void generateLeftLineLayout() {
-        DotImageView floatLogo = new DotImageView(mActivity, mLogoRes);
+        DotImageView floatLogo = new DotImageView(mActivity, mLogoRes,mLogoBgRes);
         floatLogo.setLayoutParams(new WindowManager.LayoutParams(dp2Px(50, mActivity), dp2Px(50, mActivity)));
         floatLogo.setDrawNum(mDrawRedPointNum);
         floatLogo.setDrawDarkBg(false);
@@ -471,7 +475,7 @@ public class FloatLogoMenu {
     }
 
     private void generateRightLineLayout() {
-        final DotImageView floatLogo = new DotImageView(mActivity, mLogoRes);
+        final DotImageView floatLogo = new DotImageView(mActivity, mLogoRes,mLogoBgRes);
         floatLogo.setLayoutParams(new WindowManager.LayoutParams(dp2Px(50, mActivity), dp2Px(50, mActivity)));
         floatLogo.setDrawNum(mDrawRedPointNum);
         floatLogo.setDrawDarkBg(false);
@@ -813,6 +817,9 @@ public class FloatLogoMenu {
             e.printStackTrace();
         }
     }
+    public void setInitPosOffsetY(int offsetY){
+        mInitPosOffsetY = offsetY;
+    }
 
     public void show() {
         try {
@@ -980,6 +987,7 @@ public class FloatLogoMenu {
         private boolean mDrawRedPointNum;
         private boolean mCircleMenuBg;
         private Bitmap mLogoRes;
+        private Bitmap mLogoBgRes;
         private int mDefaultLocation;
         private List<FloatItem> mFloatItems = new ArrayList<>();
         private Context mActivity;
@@ -987,6 +995,7 @@ public class FloatLogoMenu {
         private FloatMenuView.OnMenuLogoClickListener mOnLogoClickListener;
         private Drawable mDrawable;
         private String mMarkTag = "";
+        private int mInitPosOffsetY = 0;
 
 
         public Builder setBgDrawable(Drawable drawable) {
@@ -1026,6 +1035,10 @@ public class FloatLogoMenu {
             mLogoRes = val;
             return this;
         }
+        public Builder logoBg(Bitmap val) {
+            mLogoBgRes = val;
+            return this;
+        }
 
         public Builder withActivity(Activity val) {
             mActivity = val;
@@ -1059,9 +1072,17 @@ public class FloatLogoMenu {
             mMarkTag = tag;
             return this;
         }
+        public Builder setInitPosOffsetY(int initPosOffsetY) {
+            mInitPosOffsetY = initPosOffsetY;
+            return this;
+        }
 
         public FloatLogoMenu showWithLogo(Bitmap val) {
             mLogoRes = val;
+            return new FloatLogoMenu(this);
+        }
+        public FloatLogoMenu showWithLogoBg(Bitmap val) {
+            mLogoBgRes = val;
             return new FloatLogoMenu(this);
         }
 

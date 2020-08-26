@@ -75,6 +75,7 @@ public class MainActivity extends Activity {
                     .withActivity(mActivity)
 //                    .withContext(mActivity.getApplication())//这个在7.0（包括7.0）以上以及大部分7.0以下的国产手机上需要用户授权，需要搭配<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
                     .logo(BitmapFactory.decodeResource(getResources(), R.drawable.icon_float))
+                    .logoBg(BitmapFactory.decodeResource(getResources(), R.drawable.icon_float_bg))
                     .drawCicleMenuBg(true)
                     .backMenuColor(0xffe4e3e1)
                     .setBgDrawable(this.getResources().getDrawable(R.drawable.yw_game_float_menu_bg))
@@ -83,6 +84,7 @@ public class MainActivity extends Activity {
                     .defaultLocation(FloatLogoMenu.LEFT)
                     .drawRedPointNum(false)
                     .setMarkTag("mFloatMenu")
+                    .setInitPosOffsetY(-100)
                     .showWithLogoListener(new FloatMenuView.OnMenuLogoClickListener() {
                         @Override
                         public void onItemClick() {
@@ -107,6 +109,7 @@ public class MainActivity extends Activity {
                     mFloatMenu.setProgress(60,5000);
                 }
             }, 5000);
+            mFloatMenu.setProgressWidthOffset(40);
 
             //同时只能new一个
         }

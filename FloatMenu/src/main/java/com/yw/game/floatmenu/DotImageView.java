@@ -57,6 +57,7 @@ public class DotImageView extends View {
 
 
     private Bitmap mBitmap;//logo
+    private Bitmap mBitmapLogoBg;//logo
     private final int mLogoBackgroundRadius = dip2px(35);//logo的灰色背景圆的半径
     private final int mLogoWhiteRadius = dip2px(30);//logo的白色背景的圆的半径
     private final int mRedPointRadiusWithNum = dip2px(6);//红点圆半径
@@ -169,10 +170,14 @@ public class DotImageView extends View {
     public void setBitmap(Bitmap bitmap) {
         mBitmap = bitmap;
     }
+    public void setmBitmapLogoBg(Bitmap bitmap) {
+        mBitmapLogoBg = bitmap;
+    }
 
-    public DotImageView(Context context, Bitmap bitmap) {
+    public DotImageView(Context context, Bitmap bitmap,Bitmap bitmapLogoBg) {
         super(context);
         this.mBitmap = bitmap;
+        this.mBitmapLogoBg = bitmapLogoBg;
         init();
         initProgress(context,null,0);
     }
@@ -221,7 +226,7 @@ public class DotImageView extends View {
         textSize = mTypedArray.getDimension(R.styleable.RingProgressBar_rTextSize, 40);//字体大小
         circleColor = mTypedArray.getColor(R.styleable.RingProgressBar_rCircleColor, Color.TRANSPARENT);//中间圆的颜色,默认透明
         ringColor = mTypedArray.getColor(R.styleable.RingProgressBar_rRingColor, Color.TRANSPARENT);//外层初始圆环的颜色，默认透明
-        progressColor = mTypedArray.getColor(R.styleable.RingProgressBar_rProgressColor, Color.YELLOW);//外层进度环的颜色，默认蓝色
+        progressColor = mTypedArray.getColor(R.styleable.RingProgressBar_rProgressColor, 0xFFD93A26);//外层进度环的颜色，默认淡黄色
         textIsVisibility = mTypedArray.getBoolean(R.styleable.RingProgressBar_rTextIsVisibility, true);//文字是否可见，默认可见
         style = mTypedArray.getInt(R.styleable.RingProgressBar_style, 0);
         mTypedArray.recycle();
@@ -310,8 +315,16 @@ public class DotImageView extends View {
         canvas.restore();
         //100% 白色背景 （透明度 0%）
         mPaint.setColor(0xFFFFFFFF);
-        int left = (int) (centerX - mBitmap.getWidth() / 2);
-        int top = (int) (centerY - mBitmap.getHeight() / 2);
+        int left;
+        int top;
+        if(null != mBitmapLogoBg){
+            left = (int) (centerX - mBitmapLogoBg.getWidth() / 2);
+            top = (int) (centerY - mBitmapLogoBg.getHeight() / 2);
+            canvas.drawBitmap(mBitmapLogoBg, left, top, mPaint);
+        }
+        left = (int) (centerX - mBitmap.getWidth() / 2);
+        top = (int) (centerY - mBitmap.getHeight() / 2);
+
         canvas.drawBitmap(mBitmap, left, top, mPaint);
 
 
