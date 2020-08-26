@@ -350,7 +350,7 @@ public class FloatLogoMenu {
         }
 
         if (y != 0 && y != defaultY) {
-            wmParams.y = y - mInitPosOffsetY;
+            wmParams.y = y ;
         } else {
             wmParams.y = defaultY - mInitPosOffsetY;
         }
