@@ -403,11 +403,6 @@ public class FloatLogoMenu {
             mFloatLogo.setDragScaleEnabled(dragScaleEnabled);
         }
     }
-    public synchronized void setProgressWidthOffset(int progressWidthOffset) {
-        if(null != mFloatLogo) {
-            mFloatLogo.setProgressWidthOffset(progressWidthOffset);
-        }
-    }
 
     /**
      * 初始化悬浮球

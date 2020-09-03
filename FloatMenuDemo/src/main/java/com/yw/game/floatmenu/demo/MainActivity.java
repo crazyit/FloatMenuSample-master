@@ -109,7 +109,6 @@ public class MainActivity extends Activity {
                     mFloatMenu.setProgress(60,5000);
                 }
             }, 5000);
-            mFloatMenu.setProgressWidthOffset(40);
 
             //同时只能new一个
         }
