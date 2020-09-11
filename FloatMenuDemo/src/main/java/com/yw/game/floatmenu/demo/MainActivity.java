@@ -101,14 +101,22 @@ public class MainActivity extends Activity {
 
                         }
                     });
+            mFloatMenu.setProgress(100,5000);
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    refreshDot();
+                    mFloatMenu.setProgressWithoutAnimation(0);
+                }
+            }, 5000);
 
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     refreshDot();
-                    mFloatMenu.setProgress(60,5000);
+                    mFloatMenu.setProgress(100,5000);
                 }
-            }, 5000);
+            }, 8000);
 
             //同时只能new一个
         }

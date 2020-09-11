@@ -265,7 +265,7 @@ public class FloatLogoMenu {
     private Drawable mBackground;
 
     private ProgressBar mProgressBar;
-    private int initLogoOffsetX = 0;
+    private int initLogoOffsetX = 5;
 
 
     private FloatLogoMenu(Builder builder) {

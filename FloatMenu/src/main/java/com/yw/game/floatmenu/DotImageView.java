@@ -69,7 +69,7 @@ public class DotImageView extends View {
     private ValueAnimator mDragValueAnimator;//放大、旋转 属性动画
     private LinearInterpolator mLinearInterpolator = new LinearInterpolator();//通用用加速器
     public boolean mDrawDarkBg = true;//是否绘制黑色背景，当菜单关闭时，才绘制灰色背景
-    private static final float hideOffset = 0.1f;//往左右隐藏多少宽度的偏移值， 隐藏宽度的0.4
+    private static final float hideOffset = 0.0f;//往左右隐藏多少宽度的偏移值， 隐藏宽度的0.4
     private Camera mCamera;//camera用于执行3D动画
 
     private boolean mDrawNum = false;//只绘制红点还是红点+白色数字
@@ -136,6 +136,7 @@ public class DotImageView extends View {
     private boolean rotateEnabled = false;
     private boolean dragScaleEnabled = false;
     private boolean drawBgCircleEnabled = false;
+    private ValueAnimator progressAnimator;
 
     public void setBgColor(int bgColor) {
         mBgColor = bgColor;
@@ -446,26 +447,35 @@ public class DotImageView extends View {
      * 设置进度，此为线程安全控件，由于考虑多线的问题，需要同步
      * 刷新界面调用postInvalidate()能在非UI线程刷新
      *
-     * @param progress
+     * @param progressParameter
      */
-    public synchronized void setProgressWithoutAnimation(float progress) {
-        if (progress < 0) {
+    public synchronized void setProgressWithoutAnimation(float progressParameter) {
+        if (progressParameter < 0) {
             throw new IllegalArgumentException("progress not less than 0");
         }
-        if (progress > max) {
-            progress = max;
+        if (progressParameter > max) {
+            progressParameter = max;
         }
-        if (progress <= max) {
-            this.progress = progress;
+        if (progressParameter <= max) {
+            if(null != progressAnimator){
+                progressAnimator.pause();
+                progressAnimator.cancel();
+            }
+            progress = progressParameter;
             postInvalidate();
         }
 
     }
     private void setProgressAnimation(float startAngle, float currentAngle,float currentValue, float time){
         //绘制当前数据对应的圆弧的动画效果
-        ValueAnimator progressAnimator = ValueAnimator.ofFloat(startAngle, currentValue);
+        if(null == progressAnimator){
+            progressAnimator = ValueAnimator.ofFloat(startAngle, currentValue);
+            progressAnimator.setTarget(this.progress);
+        }
+        progressAnimator.pause();
+        progressAnimator.cancel();
+
         progressAnimator.setDuration((long) time);
-        progressAnimator.setTarget(this.progress);
 //        progressAnimator.setInterpolator(new AccelerateInterpolator());
         progressAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
