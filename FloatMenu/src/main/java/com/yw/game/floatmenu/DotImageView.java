@@ -25,7 +25,9 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -429,7 +431,8 @@ public class DotImageView extends View {
      *
      * @param progress
      */
-    public synchronized void setProgress(float progress,float time) {
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public synchronized void setProgress(float progress, float time) {
         if (progress < 0) {
             throw new IllegalArgumentException("progress not less than 0");
         }
@@ -449,6 +452,7 @@ public class DotImageView extends View {
      *
      * @param progressParameter
      */
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public synchronized void setProgressWithoutAnimation(float progressParameter) {
         if (progressParameter < 0) {
             throw new IllegalArgumentException("progress not less than 0");
@@ -457,23 +461,23 @@ public class DotImageView extends View {
             progressParameter = max;
         }
         if (progressParameter <= max) {
-            if(null != progressAnimator){
-                progressAnimator.pause();
-                progressAnimator.cancel();
-            }
+            resetProgressAnimation();
             progress = progressParameter;
             postInvalidate();
         }
 
     }
-    private void setProgressAnimation(float startAngle, float currentAngle,float currentValue, float time){
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void setProgressAnimation(float startAngle, float currentAngle, float currentValue, float time){
         //绘制当前数据对应的圆弧的动画效果
-        if(null == progressAnimator){
-            progressAnimator = ValueAnimator.ofFloat(startAngle, currentValue);
-            progressAnimator.setTarget(this.progress);
-        }
+        resetProgressAnimation();
+
+        progressAnimator = ValueAnimator.ofFloat(startAngle, currentValue);
+        progressAnimator.setTarget(this.progress);
+
         progressAnimator.pause();
         progressAnimator.cancel();
+        progressAnimator.removeAllUpdateListeners();
 
         progressAnimator.setDuration((long) time);
 //        progressAnimator.setInterpolator(new AccelerateInterpolator());
@@ -487,6 +491,14 @@ public class DotImageView extends View {
         });
         //开始执行动画
         progressAnimator.start();
+    }
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void resetProgressAnimation(){
+        if(null != progressAnimator){
+            progressAnimator.pause();
+            progressAnimator.removeAllUpdateListeners();
+            progressAnimator.end();
+        }
     }
     public synchronized void setRotateEnabled(boolean rotateEnabled) {
         this.rotateEnabled = rotateEnabled;

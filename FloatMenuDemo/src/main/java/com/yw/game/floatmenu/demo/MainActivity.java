@@ -101,12 +101,12 @@ public class MainActivity extends Activity {
 
                         }
                     });
-            mFloatMenu.setProgress(100,5000);
+            mFloatMenu.setProgress(60,5000);
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     refreshDot();
-                    mFloatMenu.setProgressWithoutAnimation(0);
+                    mFloatMenu.setProgressWithoutAnimation(10);
                 }
             }, 5000);
 
@@ -114,7 +114,7 @@ public class MainActivity extends Activity {
                 @Override
                 public void run() {
                     refreshDot();
-                    mFloatMenu.setProgress(100,5000);
+                    mFloatMenu.setProgress(50,5000);
                 }
             }, 8000);
 
