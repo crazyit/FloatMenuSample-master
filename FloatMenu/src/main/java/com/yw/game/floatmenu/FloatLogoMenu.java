@@ -25,7 +25,9 @@ import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -151,6 +153,8 @@ public class FloatLogoMenu {
 
     private String mMarkTag = "";
 
+    private long mPressDuration = -1;    //长按时长
+    private static final long LONG_PRESS_TIME_MS = 300;
     /**
      * 手指离开屏幕后 用于恢复 悬浮球的 logo 的左右位置
      */
@@ -181,17 +185,22 @@ public class FloatLogoMenu {
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    mPressDuration = SystemClock.elapsedRealtime();
                     floatEventDown(event);
-                    if(null != mOnLogoClickListener)
-                    {
-                        mOnLogoClickListener.onItemClick();
-                    }
                     break;
                 case MotionEvent.ACTION_MOVE:
                     floatEventMove(event);
                     break;
                 case MotionEvent.ACTION_UP:
+                    mPressDuration = SystemClock.elapsedRealtime() - mPressDuration;
+
                 case MotionEvent.ACTION_CANCEL:
+                    if(mPressDuration < LONG_PRESS_TIME_MS){
+                        if(null != mOnLogoClickListener)
+                        {
+                            mOnLogoClickListener.onItemClick();
+                        }
+                    }
                     floatEventUp();
                     break;
             }
