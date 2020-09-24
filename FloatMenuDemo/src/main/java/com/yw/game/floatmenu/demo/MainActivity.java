@@ -348,6 +348,12 @@ public class MainActivity extends Activity {
         super.onDestroy();
 
         if (mBaseFloatDialog != null) mBaseFloatDialog.dismiss();
+        if(null != mFloatMenu){
+            mFloatMenu.hide();
+        }
+        if(null != mFloatMenu1){
+            mFloatMenu1.hide();
+        }
 
     }
 
@@ -355,6 +361,9 @@ public class MainActivity extends Activity {
     public void hideFloat() {
         if (mFloatMenu != null) {
             mFloatMenu.hide();
+        }
+        if(null != mFloatMenu1){
+            mFloatMenu1.hide();
         }
     }
 
